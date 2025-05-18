@@ -1,0 +1,20 @@
+# Git ignore file for terminal setup
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Logs
+*.log
+
+# Personal configuration (never commit!)
+.zsh_personal
+.zsh_secrets
+
+# Local overrides
+*.local

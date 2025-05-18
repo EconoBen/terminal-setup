@@ -1,0 +1,143 @@
+#!/bin/zsh
+
+#----------------------------------
+# File System Navigation & Operations
+#----------------------------------
+# Default ls behavior - replaced with eza
+alias ls="eza --icons"
+alias ll="eza -la --icons"
+alias la="eza -a --icons"
+alias lt="eza --tree --icons"
+alias lsg="eza -la --git --icons"
+alias netscan="sudo arp-scan --interface=en0 --localnet"
+
+# Quick reload
+alias reload='source ~/.zshrc'
+alias zshconfig='${EDITOR:-nano} ~/.zshrc'
+alias resetmouse="printf '\033[?1000l'"
+
+# Configuration shortcuts
+alias starshipconfig='${EDITOR:-nano} ~/.config/starship.toml'
+alias aliasconfig='${EDITOR:-nano} ~/.zsh_aliases'
+
+# Directory Navigation Shortcuts
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+#----------------------------------
+# Development & Tools
+#----------------------------------
+# Git
+alias git-hash="git log -1 --format=%h"
+alias ghpr="gh pr create --base dev -f -a @me"
+alias lg="lazygit"
+
+# GitHub CLI Extensions
+alias dashboard="gh dash"
+alias ghnotify="gh notify"
+alias gheco="gh eco"
+
+# GitHub Copilot Alias
+eval "$(gh copilot alias -- zsh)"
+
+# Direnv Initialization
+eval "$(direnv hook zsh)"
+
+# Package Management
+alias uvt="uv tool run"
+alias uvr="uv run"
+
+# Databases
+alias devdb='psql -h dev-db -U username -d database' # Update with your credentials
+alias psql='pgcli'
+alias sql='usql'
+format-sql() {
+    if [ -z "$1" ]; then
+        echo "Usage: format-sql <file.sql>"
+        return 1
+    fi
+    pg_format -s 2 "$1" > "$1.formatted" && mv "$1.formatted" "$1"
+    echo "Formatted: $1"
+}
+
+#----------------------------------
+# SSH & Remote Access
+#----------------------------------
+# alias myserver='ssh user@server' # Example SSH alias
+# alias pi='ssh user@raspberry-pi' # Example Raspberry Pi alias
+
+#----------------------------------
+# LLMs & AI Tools
+#----------------------------------
+alias @r='f(){ curl -s -X POST https://llm.puppyplaza.club/api/chat -d "{\"model\":\"llama3.2:1b\",\"stream\":false,\"messages\":[{\"role\":\"user\",\"content\":\"$*\"}]}" | /usr/bin/jq -r .message.content; unset -f f; }; f'
+
+alias @rate='f(){ curl -s -X POST https://llm.puppyplaza.club/api/generate -d "{\"model\":\"llama3.2:1b\",\"prompt\":\"test\"}" | grep -o "\"eval_count\":[0-9]*.*\"eval_duration\":[0-9]*" | awk -F"[:,]" "{print \$2/(\$4/1000000000)\" tokens/sec\"}"; unset -f f; }; f '
+
+alias @='f(){ \
+  curl -s -X POST "https://llm.puppyplaza.club/api/chat" \
+    -d "{\"model\":\"llama3.2:1b\",\"messages\":[{\"role\":\"user\",\"content\":\"$*\"}],\"stream\":false}" \
+    | jq -r .message.content; \
+  unset -f f; \
+}; f'
+
+#----------------------------------
+# Utility Functions
+#----------------------------------
+
+# System Monitoring & Tools
+alias top='btop'
+alias df='duf'
+alias cat='bat'
+alias cleanup='mac-cleanup'
+
+# Ripgrep aliases
+alias rg='rg --smart-case'
+alias rgf='rg --files'
+alias rgi='rg --no-ignore'
+alias rgh='rg --hidden'
+
+# AWS EC2 Management
+alias awsl='aws-ec2-list'
+alias awssh='aws-ec2-ssh'
+alias awsstop='aws-ec2-stop'
+alias awsp='aws --profile'
+alias awsr='aws --profile research'
+
+# Research EC2 Instance
+alias research-start='research-start'
+alias research-stop='research-stop'
+alias research-status='research-status'
+alias research='ssh research-ec2'
+
+# Quick help/cheatsheet
+help() {
+    if [ -z "$1" ]; then
+        # Show full help
+        echo "Opening help viewer. Use arrow keys/vim keys to scroll, '/' to search, 'q' to quit."
+        sleep 1
+        glow -p ~/.zsh_help.md
+        # Reset mouse mode after glow exits
+        printf '\033[?1000l'
+    else
+        # Show help with direct jump to section
+        case "$1" in
+            nav) section="## 🧭 Navigation" ;;
+            fzf) section="## 🔍 FZF" ;;
+            git) section="## 🛠️ Git" ;;
+            find) section="## 🔎 Search" ;;
+            tools) section="## 📁 File System Tools" ;;
+            zsh) section="## ⚙️ ZSH Extensions" ;;
+            aws) section="## 🚀 AWS EC2 Management" ;;
+            research) section="### Research EC2 Instance" ;;
+            monitor) section="## 💻 System Monitoring" ;;
+            starship) section="## 🚀 Terminal Customization" ;;
+            macos) section="## 🍎 macOS Tools" ;;
+            sql) section="## 📀 SQL and Database" ;;
+            *) section="## .*$1" ;;
+        esac
+        # Render with glow and search with less
+        glow ~/.zsh_help.md | less -R +/"$section"
+    fi
+}

@@ -1,0 +1,155 @@
+# Starship Configuration
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Timeout for commands executed by starship (in milliseconds).
+command_timeout = 1000
+
+# Configure the format of the prompt
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$nodejs\
+$ruby\
+$golang\
+$docker_context\
+$conda\
+$line_break\
+$character"""
+
+# Character module (prompt symbol)
+[character]
+success_symbol = "[→](bold green)"
+error_symbol = "[✗](bold red)"
+
+# Directory module
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "cyan bold"
+read_only = " 🔒"
+read_only_style = "red"
+home_symbol = "~"
+
+# Git branch module
+[git_branch]
+format = "on [$symbol$branch]($style) "
+symbol = "🌱 "
+style = "bold purple"
+
+# Git status module
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "red bold"
+ahead = "⇡$count"
+behind = "⇣$count"
+diverged = "⇕⇡$ahead_count⇣$behind_count"
+conflicted = "="
+deleted = "✗"
+renamed = "→"
+modified = "!"
+staged = "+"
+untracked = "?"
+
+# Python module
+[python]
+format = 'via [🐍 $version]($style) '
+style = "yellow bold"
+pyenv_version_name = true
+python_binary = ["python3", "python"]
+
+# Node.js module
+[nodejs]
+format = "via [⬢ $version](bold green) "
+detect_extensions = ["js", "mjs", "cjs", "ts", "tsx"]
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]
+
+# Time module (optional - uncomment to show)
+# [time]
+# disabled = false
+# format = '🕙[$time]($style) '
+# time_format = "%T"
+# style = "bold white"
+
+# Username module
+[username]
+style_user = "bold blue"
+style_root = "bold red"
+format = "[$user]($style) "
+disabled = false
+show_always = false
+
+# Hostname module
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold green"
+disabled = false
+
+# Command duration
+[cmd_duration]
+min_time = 500
+format = "took [$duration](bold yellow) "
+show_milliseconds = false
+
+# Battery module (optional - uncomment if you want battery status)
+# [battery]
+# full_symbol = "🔋"
+# charging_symbol = "⚡️"
+# discharging_symbol = "💀"
+# format = "[$symbol$percentage]($style) "
+# 
+# [[battery.display]]
+# threshold = 10
+# style = "bold red"
+# 
+# [[battery.display]]
+# threshold = 30
+# style = "bold yellow"
+# 
+# [[battery.display]] 
+# threshold = 100
+# style = "bold green"
+
+# Memory usage (optional - uncomment if needed)
+# [memory_usage]
+# disabled = false
+# threshold = 75
+# format = "via $symbol [$ram_pct]($style) "
+# symbol = "🐏"
+# style = "bold dimmed white"
+
+# Docker context
+[docker_context]
+format = "via [🐳 $context](blue bold) "
+only_with_files = false
+disabled = false
+
+# AWS (optional - uncomment if using AWS)
+# [aws]
+# format = 'on [$symbol($profile )(\($region\))]($style) '
+# style = "bold blue"
+# symbol = "☁️  "
+
+# Conda environment
+[conda]
+format = "[$symbol$environment]($style) "
+symbol = "🅒 "
+style = "green bold"
+
+# Ruby (optional)
+[ruby]
+format = "via [💎 $version]($style) "
+style = "bold red"
+
+# Go (optional)
+[golang]
+format = "via [🐹 $version]($style) "
+style = "bold cyan"

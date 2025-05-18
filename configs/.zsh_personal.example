@@ -1,0 +1,20 @@
+#!/bin/zsh
+# Personal configuration example
+# Copy this to ~/.zsh_personal and customize
+
+# SSH shortcuts
+alias myserver='ssh user@my-server.com'
+alias pi='ssh pi@raspberry-pi.local'
+
+# Database connections
+alias devdb='psql -h localhost -U myuser -d mydb'
+
+# Personal API keys (never commit these!)
+# export OPENAI_API_KEY="your-key-here"
+# export AWS_ACCESS_KEY_ID="your-key-here"
+
+# Company-specific aliases
+# alias work-vpn='sudo openconnect vpn.company.com'
+
+# Personal paths
+# export PATH="$HOME/my-tools/bin:$PATH"
