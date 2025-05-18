@@ -108,10 +108,6 @@ if [ -f ~/.zsh_aliases ]; then
     source ~/.zsh_aliases
 fi
 
-# Source personal configuration if it exists (for sensitive data)
-if [ -f ~/.zsh_personal ]; then
-    source ~/.zsh_personal
-fi
 
 ## Source zsh improvements
 if [ -f ~/.zsh_improvements ]; then
