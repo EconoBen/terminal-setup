@@ -10,8 +10,14 @@ echo "🚀 EC2 Terminal Setup (System Packages)"
 # Setup passwordless sudo
 if [[ "$USER" == "ubuntu" ]] || [[ "$USER" == "ec2-user" ]]; then
     echo "Setting up passwordless sudo..."
-    echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/99-$USER-nopasswd > /dev/null
-    sudo chmod 0440 /etc/sudoers.d/99-$USER-nopasswd
+    # Create proper sudoers file
+    echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER > /dev/null
+    # Make sure it has correct permissions
+    sudo chmod 440 /etc/sudoers.d/$USER
+    # Reload sudo to pick up changes
+    sudo -k
+    # Export DEBIAN_FRONTEND to avoid prompts
+    export DEBIAN_FRONTEND=noninteractive
 fi
 
 # Update package manager
@@ -40,8 +46,9 @@ if command -v apt-get &> /dev/null; then
     # Create bat symlink
     sudo ln -sf /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
     
-    # Install starship
-    curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
+    # Install starship - force yes and non-interactive
+    export FORCE=1
+    curl -sS https://starship.rs/install.sh | sudo -E sh -s -- -y
     
 elif command -v yum &> /dev/null; then
     # Amazon Linux/RHEL
@@ -64,8 +71,9 @@ elif command -v yum &> /dev/null; then
     sudo mv ripgrep-*/rg /usr/local/bin/
     rm -rf ripgrep-*
     
-    # Starship
-    curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
+    # Starship - force yes and non-interactive
+    export FORCE=1
+    curl -sS https://starship.rs/install.sh | sudo -E sh -s -- -y
 fi
 
 # Clone terminal setup
