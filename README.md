@@ -56,11 +56,8 @@ terminal-setup/
 
 #### For EC2 (System Packages - Recommended)
 ```bash
-# Basic installation (no Homebrew)
+# Full installation (includes Claude Code)
 bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup-ec2.sh)
-
-# With Claude Code
-bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup-ec2.sh) --with-claude
 ```
 
 #### For macOS or Homebrew on Linux

@@ -48,7 +48,9 @@ if command -v apt-get &> /dev/null; then
     
     # Install starship - force yes and non-interactive
     export FORCE=1
-    curl -sS https://starship.rs/install.sh | sudo -E sh -s -- -y
+    echo "Installing Starship prompt..."
+    curl -sS https://starship.rs/install.sh | sudo -E sh -s -- -y >/dev/null 2>&1
+    echo "✓ Starship installed"
     
 elif command -v yum &> /dev/null; then
     # Amazon Linux/RHEL
@@ -73,13 +75,23 @@ elif command -v yum &> /dev/null; then
     
     # Starship - force yes and non-interactive
     export FORCE=1
-    curl -sS https://starship.rs/install.sh | sudo -E sh -s -- -y
+    echo "Installing Starship prompt..."
+    curl -sS https://starship.rs/install.sh | sudo -E sh -s -- -y >/dev/null 2>&1
+    echo "✓ Starship installed"
 fi
 
-# Clone terminal setup
-echo "Cloning terminal setup..."
-git clone https://github.com/EconoBen/terminal-setup.git ~/terminal-setup
-cd ~/terminal-setup
+# Clone or update terminal setup
+echo "Setting up terminal configuration..."
+if [ -d ~/terminal-setup ]; then
+    echo "Updating existing terminal setup..."
+    cd ~/terminal-setup
+    git fetch origin
+    git reset --hard origin/main
+else
+    echo "Cloning terminal setup..."
+    git clone https://github.com/EconoBen/terminal-setup.git ~/terminal-setup
+    cd ~/terminal-setup
+fi
 
 # Copy config files
 echo "Installing configuration files..."
@@ -96,20 +108,30 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     chsh -s $(which zsh)
 fi
 
-# Install Node.js and Claude Code if requested
-if [[ "$1" == "--with-claude" ]]; then
-    echo "Installing Node.js..."
-    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-    sudo apt-get install -y nodejs || sudo yum install -y nodejs
-    
-    echo "Installing Claude Code..."
-    npm install -g @anthropic-ai/claude-code
-fi
+# Always install Node.js and Claude Code
+echo "Installing Node.js..."
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs || sudo yum install -y nodejs
 
-echo "✅ Setup complete!"
-echo "Please log out and back in for shell change to take effect"
+echo "Installing Claude Code..."
+sudo npm install -g @anthropic-ai/claude-code
+
+# Create Claude configuration directory
+mkdir -p ~/.anthropic
+
 echo ""
-echo "Next steps:"
-echo "1. Sync secrets from your local machine:"
-echo "   ./sync-secrets.sh ubuntu@$(hostname -I | awk '{print $1}')"
-echo "2. Run: source ~/.zshrc"
+echo "✅ Setup complete!"
+echo ""
+echo "🎉 Installed:"
+echo "  • Zsh shell with custom configuration"
+echo "  • Starship prompt"
+echo "  • CLI tools: ripgrep, bat, exa, fzf, etc."
+echo "  • Claude Code (AI coding assistant)"
+echo "  • Node.js and npm"
+echo ""
+echo "📋 Next steps:"
+echo "1. Switch to zsh: exec zsh"
+echo "2. From your local machine, sync secrets:"
+echo "   cd ~/Documents/GitHub/terminal-setup"
+echo "   ./sync-secrets.sh ubuntu@$(curl -s ifconfig.me)"
+echo "3. Test Claude: claude --version"
