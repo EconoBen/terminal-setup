@@ -10,6 +10,7 @@ if [ -z "$1" ]; then
 fi
 
 HOST="$1"
+REMOTE_HOME="/home/ubuntu"  # Explicitly set remote home directory
 
 echo "🔐 Syncing secrets to $HOST..."
 
@@ -24,13 +25,15 @@ FILES_TO_SYNC=(
 )
 
 # Create remote directories if needed
-ssh "$HOST" "mkdir -p ~/.ssh ~/.config/gh ~/.aws ~/.anthropic"
+ssh "$HOST" "mkdir -p $REMOTE_HOME/.ssh $REMOTE_HOME/.config/gh $REMOTE_HOME/.aws $REMOTE_HOME/.anthropic"
 
 # Sync each file if it exists
 for file in "${FILES_TO_SYNC[@]}"; do
     if [ -f "$file" ]; then
         echo "Copying $(basename $file)..."
-        scp "$file" "$HOST:$file"
+        # Replace home directory with remote home
+        remote_file="${file/#$HOME/$REMOTE_HOME}"
+        scp "$file" "$HOST:$remote_file"
     else
         echo "Skipping $(basename $file) (not found locally)"
     fi

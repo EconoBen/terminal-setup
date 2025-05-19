@@ -102,6 +102,10 @@ cp configs/.psqlrc ~/
 mkdir -p ~/.config
 cp configs/.config/starship.toml ~/.config/
 
+# Copy utility scripts
+cp pull-secrets.sh ~/
+chmod +x ~/pull-secrets.sh
+
 # Change default shell to zsh
 if [[ "$SHELL" != *"zsh"* ]]; then
     echo "Changing default shell to zsh..."
@@ -130,8 +134,10 @@ echo "  • Claude Code (AI coding assistant)"
 echo "  • Node.js and npm"
 echo ""
 echo "📋 Next steps:"
-echo "1. Switch to zsh: exec zsh"
-echo "2. From your local machine, sync secrets:"
-echo "   cd ~/Documents/GitHub/terminal-setup"
-echo "   ./sync-secrets.sh ubuntu@$(curl -s ifconfig.me)"
-echo "3. Test Claude: claude --version"
+echo "1. Pull secrets from your local machine:"
+echo "   ./pull-secrets.sh youruser@your-local-machine"
+echo "   Example: ./pull-secrets.sh blabaschin@macbook.local"
+echo "2. Test Claude: claude --version"
+echo ""
+echo ""
+echo "Ready! Run 'exec zsh' to switch to your new shell."
