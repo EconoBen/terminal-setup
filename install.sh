@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # One-line installer for terminal setup
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/terminal-setup/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/install.sh | bash
 
 set -e
 
@@ -14,7 +14,7 @@ NC='\033[0m'
 echo -e "${GREEN}🚀 Terminal Setup Installer${NC}"
 
 # Clone the repository
-REPO_URL="${TERMINAL_SETUP_REPO:-https://github.com/YOUR_USERNAME/terminal-setup.git}"
+REPO_URL="${TERMINAL_SETUP_REPO:-https://github.com/EconoBen/terminal-setup.git}"
 INSTALL_DIR="$HOME/.terminal-setup"
 
 # Remove existing installation

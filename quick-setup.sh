@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Quick setup script for EC2 - one command to rule them all
-# Usage: bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/terminal-setup/main/quick-setup.sh)
+# Usage: bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup.sh)
 
 set -e
 
@@ -19,7 +19,7 @@ fi
 
 # Clone and setup
 TEMP_DIR="/tmp/terminal-setup-$$"
-git clone https://github.com/YOUR_USERNAME/terminal-setup.git "$TEMP_DIR"
+git clone https://github.com/EconoBen/terminal-setup.git "$TEMP_DIR"
 cd "$TEMP_DIR"
 ./setup.sh
 

@@ -7,16 +7,16 @@
 ### On EC2 / Linux:
 ```bash
 # Option 1: Quick setup (recommended)
-bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/terminal-setup/main/quick-setup.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup.sh)
 
 # Option 2: Clone and install
-git clone https://github.com/YOUR_USERNAME/terminal-setup.git ~/.terminal-setup
+git clone https://github.com/EconoBen/terminal-setup.git ~/.terminal-setup
 cd ~/.terminal-setup && ./setup.sh
 ```
 
 ### On macOS:
 ```bash
-git clone https://github.com/YOUR_USERNAME/terminal-setup.git ~/.terminal-setup
+git clone https://github.com/EconoBen/terminal-setup.git ~/.terminal-setup
 cd ~/.terminal-setup && ./setup.sh
 ```
 
@@ -54,19 +54,19 @@ terminal-setup/
 
 ### 1. Quick Install (Recommended for EC2)
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/terminal-setup/main/quick-setup.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup.sh)
 ```
 
 ### 2. Standard Install
 ```bash
-git clone https://github.com/YOUR_USERNAME/terminal-setup.git ~/.terminal-setup
+git clone https://github.com/EconoBen/terminal-setup.git ~/.terminal-setup
 cd ~/.terminal-setup
 ./setup.sh
 ```
 
 ### 3. Minimal Install (Resource-constrained)
 ```bash
-git clone https://github.com/YOUR_USERNAME/terminal-setup.git ~/.terminal-setup
+git clone https://github.com/EconoBen/terminal-setup.git ~/.terminal-setup
 cd ~/.terminal-setup
 ./minimal-setup.sh
 ```
