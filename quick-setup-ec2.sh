@@ -99,12 +99,15 @@ cp configs/.zshrc ~/
 cp configs/.zsh_aliases ~/
 cp configs/.zsh_help.md ~/
 cp configs/.psqlrc ~/
+cp configs/.terminal-setup.conf ~/
 mkdir -p ~/.config
 cp configs/.config/starship.toml ~/.config/
 
 # Copy utility scripts
 cp pull-secrets.sh ~/
+cp pull-secrets-auto.sh ~/
 chmod +x ~/pull-secrets.sh
+chmod +x ~/pull-secrets-auto.sh
 
 # Change default shell to zsh
 if [[ "$SHELL" != *"zsh"* ]]; then
@@ -135,8 +138,8 @@ echo "  • Node.js and npm"
 echo ""
 echo "📋 Next steps:"
 echo "1. Pull secrets from your local machine:"
-echo "   ./pull-secrets.sh youruser@your-local-machine"
-echo "   Example: ./pull-secrets.sh blabaschin@macbook.local"
+echo "   ./pull-secrets-auto.sh"
+echo "   (or manually: ./pull-secrets.sh blabaschin@bjl-2.local)"
 echo "2. Test Claude: claude --version"
 echo ""
 echo ""
