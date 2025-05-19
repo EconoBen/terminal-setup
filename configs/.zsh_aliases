@@ -3,12 +3,25 @@
 #----------------------------------
 # File System Navigation & Operations
 #----------------------------------
-# Default ls behavior - replaced with eza
-alias ls="eza --icons"
-alias ll="eza -la --icons"
-alias la="eza -a --icons"
-alias lt="eza --tree --icons"
-alias lsg="eza -la --git --icons"
+# Default ls behavior - replaced with eza/exa
+# Check which one is available
+if command -v eza &> /dev/null; then
+    alias ls="eza --icons"
+    alias ll="eza -la --icons"
+    alias la="eza -a --icons"
+    alias lt="eza --tree --icons"
+    alias lsg="eza -la --git --icons"
+elif command -v exa &> /dev/null; then
+    alias ls="exa --icons"
+    alias ll="exa -la --icons"
+    alias la="exa -a --icons"
+    alias lt="exa --tree --icons"
+    alias lsg="exa -la --git --icons"
+else
+    alias ls="ls --color=auto"
+    alias ll="ls -la"
+    alias la="ls -a"
+fi
 alias netscan="sudo arp-scan --interface=en0 --localnet"
 
 # Quick reload

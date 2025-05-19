@@ -41,7 +41,7 @@ if command -v apt-get &> /dev/null; then
     sudo ln -sf /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
     
     # Install starship
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
+    curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
     
 elif command -v yum &> /dev/null; then
     # Amazon Linux/RHEL
@@ -65,7 +65,7 @@ elif command -v yum &> /dev/null; then
     rm -rf ripgrep-*
     
     # Starship
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
+    curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
 fi
 
 # Clone terminal setup
