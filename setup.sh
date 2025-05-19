@@ -31,8 +31,12 @@ echo -e "${YELLOW}Detected OS: $OS${NC}"
 setup_sudo() {
     if [[ "$USER" == "ubuntu" ]] || [[ "$USER" == "ec2-user" ]]; then
         echo -e "${YELLOW}Setting up passwordless sudo for EC2...${NC}"
-        echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER > /dev/null
-        echo -e "${GREEN}Passwordless sudo enabled${NC}"
+        # Check if we already have passwordless sudo
+        if ! sudo -n true 2>/dev/null; then
+            echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/99-$USER-nopasswd > /dev/null
+            sudo chmod 0440 /etc/sudoers.d/99-$USER-nopasswd
+        fi
+        echo -e "${GREEN}Passwordless sudo configured${NC}"
     fi
 }
 
@@ -40,6 +44,12 @@ setup_sudo() {
 install_homebrew() {
     if ! command -v brew &> /dev/null; then
         echo -e "${YELLOW}Installing Homebrew...${NC}"
+        
+        # For Linux/EC2, use NONINTERACTIVE mode
+        if [[ "$OS" != "macos" ]]; then
+            export NONINTERACTIVE=1
+        fi
+        
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         
         if [[ "$OS" == "macos" ]]; then

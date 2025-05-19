@@ -52,7 +52,18 @@ terminal-setup/
 
 ## Installation Methods
 
-### 1. Quick Install (Recommended for EC2)
+### 1. Quick Install
+
+#### For EC2 (System Packages - Recommended)
+```bash
+# Basic installation (no Homebrew)
+bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup-ec2.sh)
+
+# With Claude Code
+bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup-ec2.sh) --with-claude
+```
+
+#### For macOS or Homebrew on Linux
 ```bash
 # Basic installation
 bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup.sh)
