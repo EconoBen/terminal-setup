@@ -21,7 +21,9 @@ fi
 TEMP_DIR="/tmp/terminal-setup-$$"
 git clone https://github.com/EconoBen/terminal-setup.git "$TEMP_DIR"
 cd "$TEMP_DIR"
-./setup.sh
+
+# Pass through command line arguments (e.g., --with-claude)
+./setup.sh "$@"
 
 # Cleanup
 rm -rf "$TEMP_DIR"

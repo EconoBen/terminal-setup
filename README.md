@@ -54,7 +54,11 @@ terminal-setup/
 
 ### 1. Quick Install (Recommended for EC2)
 ```bash
+# Basic installation
 bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup.sh)
+
+# With Claude Code
+bash <(curl -fsSL https://raw.githubusercontent.com/EconoBen/terminal-setup/main/quick-setup.sh) --with-claude
 ```
 
 ### 2. Standard Install
@@ -69,6 +73,14 @@ cd ~/.terminal-setup
 git clone https://github.com/EconoBen/terminal-setup.git ~/.terminal-setup
 cd ~/.terminal-setup
 ./minimal-setup.sh
+```
+
+### 4. Sync Secrets from Local
+After installation, sync your sensitive files:
+```bash
+# From your local machine
+cd ~/Documents/GitHub/terminal-setup
+./sync-secrets.sh ubuntu@your-ec2-instance
 ```
 
 ## Platform Differences

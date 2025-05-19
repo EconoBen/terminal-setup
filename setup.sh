@@ -27,6 +27,15 @@ fi
 
 echo -e "${YELLOW}Detected OS: $OS${NC}"
 
+# Setup passwordless sudo for EC2
+setup_sudo() {
+    if [[ "$USER" == "ubuntu" ]] || [[ "$USER" == "ec2-user" ]]; then
+        echo -e "${YELLOW}Setting up passwordless sudo for EC2...${NC}"
+        echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER > /dev/null
+        echo -e "${GREEN}Passwordless sudo enabled${NC}"
+    fi
+}
+
 # Install package manager
 install_homebrew() {
     if ! command -v brew &> /dev/null; then
@@ -48,12 +57,12 @@ install_system_deps() {
     case $OS in
         debian)
             sudo apt-get update
-            sudo apt-get install -y build-essential curl git zsh
+            sudo apt-get install -y build-essential curl git zsh wget
             ;;
         redhat)
             sudo yum update -y
             sudo yum groupinstall -y "Development Tools"
-            sudo yum install -y curl git zsh
+            sudo yum install -y curl git zsh wget
             ;;
         macos)
             # Xcode tools usually already installed
@@ -122,8 +131,33 @@ set_default_shell() {
     fi
 }
 
+# Install Claude Code
+install_claude_code() {
+    echo -e "${YELLOW}Installing Claude Code...${NC}"
+    
+    # First ensure Node.js is installed
+    if ! command -v node &> /dev/null; then
+        echo -e "${YELLOW}Installing Node.js...${NC}"
+        if [[ "$OS" == "macos" ]]; then
+            brew install node
+        else
+            # Install Node.js via NodeSource for Linux
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+        fi
+    fi
+    
+    # Install Claude Code globally
+    echo -e "${YELLOW}Installing Claude Code via npm...${NC}"
+    npm install -g @anthropic-ai/claude-code
+    
+    echo -e "${GREEN}Claude Code installed${NC}"
+    echo "Run 'claude' to start using Claude Code"
+}
+
 # Main execution
 main() {
+    setup_sudo
     install_system_deps
     install_homebrew
     install_tools
@@ -131,8 +165,19 @@ main() {
     platform_adjustments
     set_default_shell
     
+    # Optional: Install Claude Code
+    if [[ "$1" == "--with-claude" ]]; then
+        install_claude_code
+    fi
+    
     echo -e "${GREEN}Setup complete!${NC}"
     echo -e "${YELLOW}Please restart your terminal or run: source ~/.zshrc${NC}"
+    
+    # Provide sync command if on EC2
+    if [[ "$USER" == "ubuntu" ]] || [[ "$USER" == "ec2-user" ]]; then
+        echo -e "\n${YELLOW}To sync secrets from your local machine:${NC}"
+        echo "scp ~/.zsh_secrets ubuntu@\$(hostname -I | awk '{print \$1}'):~/"
+    fi
 }
 
 main "$@"
